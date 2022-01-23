@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+	</head>
+	<body>
+		<script>
+			let socket = new WebSocket("ws://localhost:9080/infos");
+			socket.onmessage = (event) => {
+				alert(event.data);
+				document.getElementById("name").textContent = event.data;
+			}
+		</script>
+		<p>Hi</p>
+		<p id="name"></p>
+		<button onclick="socket.send('hey duke')">send</button>
+	</body>
+</html>
