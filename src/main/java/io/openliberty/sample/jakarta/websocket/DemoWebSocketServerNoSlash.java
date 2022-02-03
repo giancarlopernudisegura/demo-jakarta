@@ -7,13 +7,13 @@ import jakarta.websocket.OnClose;
 import jakarta.websocket.OnMessage;
 import jakarta.websocket.Session;
 
-@ServerEndpoint("/./invalid")
-public class DemoWebSocketServerRelative {
+@ServerEndpoint("invalid")
+public class DemoWebSocketServerNoSlash {
 	@OnOpen
 	public void onOpen(Session session) {
 		System.out.printf("Session opened.\nSession ID: %s\n", session.getId());
 		try {
-			session.getBasicRemote().sendText("You are connected to /./invalid.");
+			session.getBasicRemote().sendText("You are connected to invalid.");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
