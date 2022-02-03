@@ -1,8 +1,6 @@
 package io.openliberty.websockets;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
 import jakarta.websocket.server.ServerEndpoint;
 import jakarta.websocket.OnOpen;
 import jakarta.websocket.OnError;
@@ -33,6 +31,7 @@ public class Initialization {
         System.out.println("Program requested " + message + " using " + session.getId());
         session.getAsyncRemote().sendText("I am never shown");
     }
+	
 
     @OnError
     public void onError(Session session, Throwable throwable, String test) {
@@ -40,7 +39,8 @@ public class Initialization {
     }
 
     @OnClose
-    public void onClose(Session session) {
+    public void onClose(Session session, String test) {
         System.out.println("WebSocket closed for " + session.getId());
     }
+    
 }
