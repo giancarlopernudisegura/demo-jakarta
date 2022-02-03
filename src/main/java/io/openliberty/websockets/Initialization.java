@@ -7,25 +7,41 @@ import jakarta.websocket.server.ServerEndpoint;
 import jakarta.websocket.OnOpen;
 import jakarta.websocket.OnError;
 import jakarta.websocket.OnMessage;
+import jakarta.websocket.EncodeException;
 import jakarta.websocket.OnClose;
 import jakarta.websocket.Session;
 
 
 // Followed tutorial from https://www.baeldung.com/java-websockets
-@ServerEndpoint(value = "/infos")
+@ServerEndpoint(value = "/stocks")
 public class Initialization {
-	private static Session session;	
+	private static Set<Session> sessions = new HashSet<>();	
 	
+    // send message to all of our suscribers
+    public static void broadcastMessage(String message) {
+        for (Session session : sessions) {
+            try {
+                session.getBasicRemote().sendObject(session);
+            } catch (IOException | EncodeException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 	@OnOpen
 	public void OnOpen(Session session) throws IOException {
-		this.session = session;
-		System.out.println("Websocket opened: " + session.getId().toString());
+        sessions.add(session);
+        System.out.println("Websocket opened: " + session.getId().toString());
 	}
 	
 	@OnMessage
     public void onMessage(String message, Session session) {
         System.out.println("Program requested " + message + " using " + session.getId());
-        session.getAsyncRemote().sendText("Lucky says hi");
+        try {
+            session.getBasicRemote().sendObject(session);
+        } catch (IOException | EncodeException e) {
+            e.printStackTrace();
+        }
     }
  
     @OnError
@@ -36,5 +52,6 @@ public class Initialization {
     @OnClose
     public void onClose(Session session) {
         System.out.println("WebSocket closed for " + session.getId());
+        sessions.remove(session);
     }
 }
