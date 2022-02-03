@@ -7,18 +7,18 @@ import jakarta.websocket.OnClose;
 import jakarta.websocket.OnMessage;
 import jakarta.websocket.Session;
 
-@ServerEndpoint("/ping")
-public class DemoWebSocketServer {
+@ServerEndpoint("/{var}/b")
+public class DemoWebSocketServerVarB {
 	@OnOpen
 	public void onOpen(Session session) {
 		System.out.printf("Session opened.\nSession ID: %s\n", session.getId());
 		try {
-			session.getBasicRemote().sendText("You are connected.");
+			session.getBasicRemote().sendText("You are connected to /{var}/b.");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@OnClose
 	public void onClose(Session session) {
 		System.out.printf("Session closed.\n");
@@ -28,6 +28,6 @@ public class DemoWebSocketServer {
 	public String onMessage(String message) {
 		if (message.equals("ping"))
 			return "pong";
-		return "";
+		return message;
 	}
 }
