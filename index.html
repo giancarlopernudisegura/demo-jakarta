@@ -6,14 +6,22 @@
 	</head>
 	<body>
 		<script>
-			let socket = new WebSocket("ws://localhost:9080/infos");
+			var socket = new WebSocket("ws://localhost:9080/infos");
+
+			
+			const callback = () => {
+/* 				socket.send('hey duke');
+ 				const array = new Float32Array(5);
+ 				socket.send(array);
+			};
+			
 			socket.onmessage = (event) => {
 				alert(event.data);
 				document.getElementById("name").textContent = event.data;
 			}
 		</script>
-		<p>Hi</p>
+		<p>Hi e</p>
 		<p id="name"></p>
-		<button onclick="socket.send('hey duke')">send</button>
+		<button onclick="callback()">send</button>
 	</body>
 </html>
