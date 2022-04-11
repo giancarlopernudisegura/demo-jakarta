@@ -17,7 +17,7 @@ import jakarta.websocket.server.ServerEndpoint;
 //@ServerEndpoint("/movies/../{movie}") // using a relative path
 public class MoviesServerEndpoint {
 	@OnOpen
-	public void onConnect(Session session, Object invalidParam) {
+	public void onConnect(Session session, String movieId, Object invalidParam) {
 		System.out.printf("Websocket opened: %s\n", session.getId().toString());
 	}
 
@@ -28,7 +28,7 @@ public class MoviesServerEndpoint {
 	}
 
 	@OnClose
-	public void onDisconnect(Session session, Object invalidParam) {
+	public void onDisconnect(Session session, String movieId, Object invalidParam) {
 		System.out.printf("Websocket closed for %s\n", session.getId().toString());
 	}
 
